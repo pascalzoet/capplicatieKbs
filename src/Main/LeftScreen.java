@@ -10,9 +10,10 @@ public class LeftScreen extends JPanel implements ActionListener{
     private JButton start, stop, reset, testCom;
     private JLabel statuslbl;
     private JTextField status;
-    private Control control;
+    private Control controler;
 
-    public LeftScreen(){
+    public LeftScreen(Control control){
+        this.controler = control;
 
         setPreferredSize(new Dimension(1100,850));
         setLayout(null);
@@ -56,7 +57,10 @@ public class LeftScreen extends JPanel implements ActionListener{
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == start){
-            control = new Control();
+            controler.setup();
+            controler.start();
+        }else if(e.getSource() == testCom){
+            controler.testComm();
         }
     }
 

@@ -7,10 +7,13 @@ import java.awt.event.ActionListener;
 
 public class Screen extends JFrame implements ActionListener {
 
-    private JPanel left = new LeftScreen();
-    private JPanel right = new RightScreen();
+    private JPanel left;
+    private JPanel right;
+    private Control controler;
 
-    public Screen() {
+    public Screen(Control control) {
+        this.controler = control;
+
         setSize(1400, 900);
         setTitle("Robot applicatie");
         FlowLayout layout = new FlowLayout(FlowLayout.LEFT);
@@ -18,9 +21,9 @@ public class Screen extends JFrame implements ActionListener {
         layout.setHgap(0);
         setLayout(layout);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setVisible(true);
 
-
+        left = new LeftScreen(control);
+        right = new RightScreen(control);
         add(left);
         add(right);
     }

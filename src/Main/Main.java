@@ -1,8 +1,9 @@
 package Main;
 
 public class Main {
-
     public static void main(String[] args) {
-        Screen screen = new Screen();
+        Control control = new Control();
+        Screen screen = new Screen(control);
+        screen.setVisible(true);
     }
 }

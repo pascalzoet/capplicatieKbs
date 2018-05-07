@@ -11,8 +11,10 @@ public class RightScreen extends JPanel implements ActionListener {
 
     private JTextArea comLog;
     private JScrollPane scroll;
+    private Control controler;
 
-    public RightScreen(){
+    public RightScreen(Control control){
+        this.controler = control;
         setPreferredSize(new Dimension(280,850));
         setLayout(new BorderLayout());
 
