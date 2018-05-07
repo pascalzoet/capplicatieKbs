@@ -3,15 +3,18 @@ package Main;
 import java.util.ArrayList;
 
 public class Control {
-    private ArrayList<ArduinoComm> arduino;
+    ArduinoComm com1;
+    ArduinoComm com2;
 
     public Control(){
 
     }
 
     public void setup(){
-        arduino = new ArrayList<>();
-        arduino.add(new ArduinoComm("Arduino Uno", 9600));
+        com1 = new ArduinoComm("COM5", 9600);
+        //com2 = new ArduinoComm("COM7", 9600);
+
+        testComm();
     }
 
     public void start(){
@@ -19,6 +22,7 @@ public class Control {
     }
 
     public void testComm(){
-
+        com1.send("Available");
+        //com2.send("Available");
     }
 }

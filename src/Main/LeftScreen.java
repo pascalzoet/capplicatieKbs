@@ -9,7 +9,7 @@ public class LeftScreen extends JPanel implements ActionListener{
 
     private JButton start, stop, reset, testCom;
     private JLabel statuslbl;
-    private JTextField status;
+    private static JTextField status;
     private Control controler;
 
     public LeftScreen(Control control){
@@ -50,8 +50,8 @@ public class LeftScreen extends JPanel implements ActionListener{
         add(status);
     }
 
-    public void setStatus(String status) {
-        this.status.setText(status);
+    public static void setStatus(String s) {
+        status.setText(s);
     }
 
     @Override

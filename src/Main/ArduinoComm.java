@@ -7,20 +7,25 @@ import org.ardulink.util.URIs;
 import java.util.concurrent.TimeUnit;
 
 public class ArduinoComm {
+
+    private String conn;
+    private Link link;
+
     public ArduinoComm(String port, int baud){
-        Link link = Links.getLink(URIs.newURI("ardulink://serial-jssc?port=COM5&baudrate=9600&pingprobe=false"));
+        LeftScreen.setStatus("Connecting");
+        conn = "ardulink://serial-jssc?port=" + port + "&baudrate=" + baud + "&pingprobe=false";
+        link = Links.getLink(URIs.newURI(conn));
+        LeftScreen.setStatus("Connected");
+    }
+
+    public String send(String data){
         try {
-            link.sendCustomMessage("1,0,1,0,1");
-            TimeUnit.SECONDS.sleep(1);
-            link.sendCustomMessage("5");
-            link.sendCustomMessage("5");
-            link.sendCustomMessage("5");
-            link.sendCustomMessage("5");
-            link.sendCustomMessage("5");
+            link.sendCustomMessage(data);
+            RightScreen.comLog("Applicatie", data);
         }catch (Exception e){
             System.out.println(e);
         }
-
+        return "true";
     }
 
 }

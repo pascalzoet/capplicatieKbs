@@ -9,7 +9,7 @@ import java.awt.event.ActionListener;
 
 public class RightScreen extends JPanel implements ActionListener {
 
-    private JTextArea comLog;
+    private static JTextArea comLog;
     private JScrollPane scroll;
     private Control controler;
 
@@ -28,7 +28,7 @@ public class RightScreen extends JPanel implements ActionListener {
         add(scroll);
     }
 
-    public void comLog(String sender, String log){
+    public static void comLog(String sender, String log){
         String currentLog = comLog.getText();
         comLog.setText(currentLog + "\n" + sender + " -> " + log);
     }
