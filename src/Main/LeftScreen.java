@@ -10,6 +10,7 @@ public class LeftScreen extends JPanel implements ActionListener{
     private JButton start, stop, reset, testCom;
     private JLabel statuslbl;
     private JTextField status;
+    private Control control;
 
     public LeftScreen(){
 
@@ -37,11 +38,11 @@ public class LeftScreen extends JPanel implements ActionListener{
         add(testCom);
 
         statuslbl = new JLabel("Status:");
-        statuslbl.setBounds(906, 110, 100, 51);
+        statuslbl.setBounds(906, 110, 40, 51);
         add(statuslbl);
 
         status = new JTextField("Niet begonnen");
-        status.setBounds(1010, 127, 88, 20);
+        status.setBounds(950, 127, 148, 20);
         status.setEditable(false);
         status.setBackground(Color.gray);
         status.setForeground(Color.white);
@@ -49,16 +50,28 @@ public class LeftScreen extends JPanel implements ActionListener{
     }
 
     public void setStatus(String status) {
-        status.setText
+        this.status.setText(status);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-
+        if(e.getSource() == start){
+            control = new Control();
+        }
     }
 
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
+
+        g.drawLine(0,425,1100,425);
+
+        //TSP
+        g.drawRect(10, 435, 1080, 405);
+        for(int i=0; i<5; i++){
+            for(int j=0;j<5;j++){
+                g.drawRect(i*216+10, j*81+435, 216, 80);
+            }
+        }
     }
 }

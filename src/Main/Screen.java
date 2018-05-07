@@ -10,7 +10,6 @@ public class Screen extends JFrame implements ActionListener {
     private JPanel left = new LeftScreen();
     private JPanel right = new RightScreen();
 
-
     public Screen() {
         setSize(1400, 900);
         setTitle("Robot applicatie");
