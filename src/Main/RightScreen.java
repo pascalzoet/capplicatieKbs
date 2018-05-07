@@ -21,17 +21,16 @@ public class RightScreen extends JPanel implements ActionListener {
         comLog.setFont(new Font("Serif", Font.ITALIC, 16));
         comLog.setLineWrap(true);
         comLog.setWrapStyleWord(true);
-        //comLog.setEditable(false);
+        comLog.setEditable(false);
         scroll = new JScrollPane(comLog);
         add(scroll);
-        //add(comLog);
     }
 
     public void comLog(String sender, String log){
         String currentLog = comLog.getText();
         comLog.setText(currentLog + "\n" + sender + " -> " + log);
     }
-//hio
+
     @Override
     public void actionPerformed(ActionEvent e) {
 

@@ -17,9 +17,9 @@ public class Screen extends JFrame implements ActionListener {
         FlowLayout layout = new FlowLayout(FlowLayout.LEFT);
         layout.setVgap(0);
         layout.setHgap(0);
-
         setLayout(layout);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setVisible(true);
 
 
         add(left);

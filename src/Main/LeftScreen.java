@@ -8,6 +8,8 @@ import java.awt.event.ActionListener;
 public class LeftScreen extends JPanel implements ActionListener{
 
     private JButton start, stop, reset, testCom;
+    private JLabel statuslbl;
+    private JTextField status;
 
     public LeftScreen(){
 
@@ -33,6 +35,21 @@ public class LeftScreen extends JPanel implements ActionListener{
         testCom.addActionListener(this);
         testCom.setBounds(802, 70, 296, 51);
         add(testCom);
+
+        statuslbl = new JLabel("Status:");
+        statuslbl.setBounds(906, 110, 100, 51);
+        add(statuslbl);
+
+        status = new JTextField("Niet begonnen");
+        status.setBounds(1010, 127, 88, 20);
+        status.setEditable(false);
+        status.setBackground(Color.gray);
+        status.setForeground(Color.white);
+        add(status);
+    }
+
+    public void setStatus(String status) {
+        status.setText
     }
 
     @Override
