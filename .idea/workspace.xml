@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="a88eeeaf-cbf3-4062-836b-135d9d33a570" name="Default" comment="" />
+    <list default="true" id="a88eeeaf-cbf3-4062-836b-135d9d33a570" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/src/Main/RightScreen.java" afterPath="$PROJECT_DIR$/src/Main/RightScreen.java" />
+    </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -51,8 +53,8 @@
       <file leaf-file-name="RightScreen.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Main/RightScreen.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="58">
-              <caret line="15" column="49" lean-forward="false" selection-start-line="15" selection-start-column="49" selection-end-line="15" selection-end-column="49" />
+            <state relative-caret-position="508">
+              <caret line="33" column="5" lean-forward="false" selection-start-line="33" selection-start-column="5" selection-end-line="33" selection-end-column="5" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -82,8 +84,8 @@
       <list>
         <option value="$PROJECT_DIR$/src/Main/Main.java" />
         <option value="$PROJECT_DIR$/src/Main/Screen.java" />
-        <option value="$PROJECT_DIR$/src/Main/RightScreen.java" />
         <option value="$PROJECT_DIR$/src/Main/LeftScreen.java" />
+        <option value="$PROJECT_DIR$/src/Main/RightScreen.java" />
       </list>
     </option>
   </component>
@@ -300,8 +302,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Main/RightScreen.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="58">
-          <caret line="15" column="49" lean-forward="false" selection-start-line="15" selection-start-column="49" selection-end-line="15" selection-end-column="49" />
+        <state relative-caret-position="508">
+          <caret line="33" column="5" lean-forward="false" selection-start-line="33" selection-start-column="5" selection-end-line="33" selection-end-column="5" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>

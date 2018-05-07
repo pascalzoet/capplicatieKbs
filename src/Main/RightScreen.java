@@ -31,7 +31,7 @@ public class RightScreen extends JPanel implements ActionListener {
         String currentLog = comLog.getText();
         comLog.setText(currentLog + "\n" + sender + " -> " + log);
     }
-
+//hio
     @Override
     public void actionPerformed(ActionEvent e) {
 
