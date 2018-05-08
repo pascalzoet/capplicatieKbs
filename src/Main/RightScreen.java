@@ -19,7 +19,7 @@ public class RightScreen extends JPanel implements ActionListener {
         setLayout(new BorderLayout());
 
         comLog = new JTextArea();
-        comLog.setBorder(new TitledBorder(new EtchedBorder(), "Communicatie log"));
+        comLog.setBorder(new TitledBorder(new EtchedBorder(), "Communication log"));
         comLog.setFont(new Font("Serif", Font.ITALIC, 16));
         comLog.setLineWrap(true);
         comLog.setWrapStyleWord(true);
@@ -30,7 +30,7 @@ public class RightScreen extends JPanel implements ActionListener {
 
     public static void comLog(String sender, String log){
         String currentLog = comLog.getText();
-        comLog.setText(currentLog + "\n" + sender + " -> " + log);
+        comLog.setText(currentLog + sender + " -> " + log + "\n");
     }
 
     @Override

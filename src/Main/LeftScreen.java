@@ -33,7 +33,7 @@ public class LeftScreen extends JPanel implements ActionListener{
         reset.setBounds(1010, 10, 88, 51);
         add(reset);
 
-        testCom = new JButton("Test communicatie");
+        testCom = new JButton("Test communication");
         testCom.addActionListener(this);
         testCom.setBounds(802, 70, 296, 51);
         add(testCom);
@@ -42,7 +42,7 @@ public class LeftScreen extends JPanel implements ActionListener{
         statuslbl.setBounds(906, 110, 40, 51);
         add(statuslbl);
 
-        status = new JTextField("Niet begonnen");
+        status = new JTextField("Not started");
         status.setBounds(950, 127, 148, 20);
         status.setEditable(false);
         status.setBackground(Color.gray);
