@@ -52,6 +52,8 @@ public class LeftScreen extends JPanel implements ActionListener{
 
     public static void setStatus(String s) {
         status.setText(s);
+        status.repaint();
+        System.out.println(s);
     }
 
     @Override
