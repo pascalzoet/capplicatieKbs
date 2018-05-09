@@ -4,15 +4,18 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.ByteArrayOutputStream;
 
 public class Screen extends JFrame implements ActionListener {
 
     private JPanel left;
     private JPanel right;
     private Control controler;
+    private ByteArrayOutputStream baos;
 
-    public Screen(Control control) {
+    public Screen(Control control, ByteArrayOutputStream baos) {
         this.controler = control;
+        this.baos = baos;
 
         setSize(1400, 900);
         setTitle("Robot applicatie");
@@ -23,7 +26,7 @@ public class Screen extends JFrame implements ActionListener {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         left = new LeftScreen(control);
-        right = new RightScreen(control);
+        right = new RightScreen(control, baos);
         add(left);
         add(right);
     }

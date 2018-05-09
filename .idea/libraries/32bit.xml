@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="32bit">
+    <CLASSES>
+      <root url="file://$USER_HOME$/Downloads/ardulink/winDLLs/32bit" />
+    </CLASSES>
+    <JAVADOC />
+    <NATIVE>
+      <root url="file://$USER_HOME$/Downloads/ardulink/winDLLs/32bit" />
+    </NATIVE>
+    <SOURCES />
+    <jarDirectory url="file://$USER_HOME$/Downloads/ardulink/winDLLs/32bit" recursive="false" />
+  </library>
+</component>

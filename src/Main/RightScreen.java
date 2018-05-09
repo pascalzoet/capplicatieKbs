@@ -6,14 +6,17 @@ import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.ByteArrayOutputStream;
 
 public class RightScreen extends JPanel implements ActionListener {
 
     private static JTextArea comLog;
     private JScrollPane scroll;
     private Control controler;
+    private static ByteArrayOutputStream baos;
 
-    public RightScreen(Control control){
+    public RightScreen(Control control, ByteArrayOutputStream baos){
+        this.baos = baos;
         this.controler = control;
         setPreferredSize(new Dimension(280,850));
         setLayout(new BorderLayout());
@@ -28,9 +31,8 @@ public class RightScreen extends JPanel implements ActionListener {
         add(scroll);
     }
 
-    public static void comLog(String sender, String log){
-        String currentLog = comLog.getText();
-        comLog.setText(currentLog + sender + " -> " + log + "\n");
+    public static void comLog(){
+        comLog.setText(baos.toString());
     }
 
     @Override

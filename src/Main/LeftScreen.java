@@ -64,6 +64,7 @@ public class LeftScreen extends JPanel implements ActionListener{
         }else if(e.getSource() == testCom){
             controler.testComm();
         }
+        RightScreen.comLog();
     }
 
     @Override
