@@ -1,7 +1,5 @@
 package Main;
 
-import sun.security.util.Resources_it;
-
 import java.util.concurrent.TimeUnit;
 
 public class Control {
@@ -17,9 +15,12 @@ public class Control {
         com1.initialize();
         Thread t = new Thread(com1);
         t.start();
-        System.out.println("Started");
+        try{
+            TimeUnit.SECONDS.sleep(2);
+        }catch (Exception e){
+            System.err.println(e.toString());
+        }
         LeftScreen.setStatus("Connected");
-        RightScreen.comLog();
     }
 
     public void start(){
@@ -29,9 +30,5 @@ public class Control {
     public void testComm(){
         com1.write("Available");
         System.out.println("Application -> Available");
-        try{
-            TimeUnit.SECONDS.sleep(2);
-        }catch (Exception e){}
-        RightScreen.comLog();
     }
 }

@@ -7,9 +7,12 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.ByteArrayOutputStream;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 public class RightScreen extends JPanel implements ActionListener {
-
+    private Timer timer;
     private static JTextArea comLog;
     private JScrollPane scroll;
     private Control controler;
@@ -29,6 +32,10 @@ public class RightScreen extends JPanel implements ActionListener {
         comLog.setEditable(false);
         scroll = new JScrollPane(comLog);
         add(scroll);
+
+        timer = new Timer(1000, this);
+        timer.setInitialDelay(0);
+        timer.start();
     }
 
     public static void comLog(){
@@ -37,6 +44,6 @@ public class RightScreen extends JPanel implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-
+        comLog();
     }
 }

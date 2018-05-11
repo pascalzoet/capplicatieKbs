@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+
 import gnu.io.CommPortIdentifier;
 import gnu.io.SerialPort;
 import gnu.io.SerialPortEvent;
@@ -84,6 +85,8 @@ public class ArduinoComm implements Runnable, SerialPortEventListener{
             this.output.flush();
         }catch (IOException e){
             System.out.println("Error -> Failed to send data");
+        }catch (NullPointerException e){
+            System.out.println("Error -> Not connected");
         }
     }
 
@@ -106,11 +109,11 @@ public class ArduinoComm implements Runnable, SerialPortEventListener{
             try {
                 String inputLine=input.readLine();
                 System.out.println("Arduino -> " + inputLine);
+
             } catch (Exception e) {
                 System.err.println(e.toString());
             }
         }
-        // Ignore all the other eventTypes, but you should consider the other ones.
     }
 
     public void run() {
