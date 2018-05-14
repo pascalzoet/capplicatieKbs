@@ -12,9 +12,11 @@ import gnu.io.SerialPortEventListener;
 import java.util.Enumeration;
 
 public class ArduinoComm implements Runnable, SerialPortEventListener{
+    private String name;
+
     SerialPort serialPort;
     /** The port we're normally going to use. */
-    private static final String PORT_NAMES[] = {
+    private String PORT_NAMES[] = {
             "/dev/tty.usbserial-A9007UX1", // Mac OS X
             "/dev/ttyACM0", // Raspberry Pi
             "/dev/ttyUSB0", // Linux
@@ -33,7 +35,12 @@ public class ArduinoComm implements Runnable, SerialPortEventListener{
     /** Default bits per second for COM port. */
     private static final int DATA_RATE = 9600;
 
-    public void initialize() {
+    public ArduinoComm(String name, String com){
+        this.name = name;
+        PORT_NAMES[3] = com;
+    }
+
+    public boolean initialize() {
         // the next line is for Raspberry Pi and
         // gets us into the while loop and was suggested here was suggested http://www.raspberrypi.org/phpBB3/viewtopic.php?f=81&t=32186
         //System.setProperty("gnu.io.rxtx.SerialPorts", "/dev/ttyACM0");
@@ -53,7 +60,7 @@ public class ArduinoComm implements Runnable, SerialPortEventListener{
         }
         if (portId == null) {
             System.out.println("Could not find COM port.");
-            return;
+            return false;
         }
 
         try {
@@ -76,17 +83,24 @@ public class ArduinoComm implements Runnable, SerialPortEventListener{
             serialPort.notifyOnDataAvailable(true);
         } catch (Exception e) {
             System.err.println(e.toString());
+            return false;
         }
+        return true;
     }
 
-    public void write(String data){
+    public boolean write(String data){
         try {
             this.output.write(data.getBytes());
             this.output.flush();
+            System.out.println("Application -> " + data);
+            return true;
         }catch (IOException e){
-            System.out.println("Error -> Failed to send data");
+            System.out.println("Error -> Failed to send data to " + name);
+            this.close();
+            return false;
         }catch (NullPointerException e){
-            System.out.println("Error -> Not connected");
+            System.out.println("Error -> Not connected to " + name);
+            return false;
         }
     }
 
@@ -96,6 +110,7 @@ public class ArduinoComm implements Runnable, SerialPortEventListener{
      */
     public synchronized void close() {
         if (serialPort != null) {
+            System.out.println("Application -> Connection with " + getName() + " closed");
             serialPort.removeEventListener();
             serialPort.close();
         }
@@ -108,7 +123,7 @@ public class ArduinoComm implements Runnable, SerialPortEventListener{
         if (oEvent.getEventType() == SerialPortEvent.DATA_AVAILABLE) {
             try {
                 String inputLine=input.readLine();
-                System.out.println("Arduino -> " + inputLine);
+                System.out.println("Arduino " + name + " -> " + inputLine);
 
             } catch (Exception e) {
                 System.err.println(e.toString());
@@ -120,5 +135,9 @@ public class ArduinoComm implements Runnable, SerialPortEventListener{
         //the following line will keep this app alive for 1000 seconds,
         //waiting for events to occur and responding to them (printing incoming messages to console).
         try {Thread.sleep(1000000);} catch (InterruptedException ie) {}
+    }
+
+    public String getName() {
+        return name;
     }
 }
