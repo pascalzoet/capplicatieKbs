@@ -7,7 +7,7 @@ import java.awt.event.ActionListener;
 
 public class LeftScreen extends JPanel implements ActionListener{
 
-    private JButton start, stop, reset, testCom;
+    private JButton comm, start, stop, testCom;
     private JLabel statuslbl;
     private static JTextField status;
     private Control controler;
@@ -18,20 +18,20 @@ public class LeftScreen extends JPanel implements ActionListener{
         setPreferredSize(new Dimension(1100,850));
         setLayout(null);
 
+        comm = new JButton("Setup");
+        comm.addActionListener(this);
+        comm.setBounds(802, 10, 88, 51);
+        add(comm);
+
         start = new JButton("Start");
         start.addActionListener(this);
-        start.setBounds(802, 10, 88, 51);
+        start.setBounds(906, 10, 88, 51);
         add(start);
 
         stop = new JButton("Stop");
         stop.addActionListener(this);
-        stop.setBounds(906, 10, 88, 51);
+        stop.setBounds(1010, 10, 88, 51);
         add(stop);
-
-        reset = new JButton("Reset");
-        reset.addActionListener(this);
-        reset.setBounds(1010, 10, 88, 51);
-        add(reset);
 
         testCom = new JButton("Test communication");
         testCom.addActionListener(this);
@@ -59,10 +59,13 @@ public class LeftScreen extends JPanel implements ActionListener{
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == start){
-            controler.setup();
             controler.start();
         }else if(e.getSource() == testCom){
             controler.testComm();
+        }else if(e.getSource() == stop){
+            controler.stop();
+        }else if(e.getSource() == comm){
+            controler.setup();
         }
         RightScreen.comLog();
     }

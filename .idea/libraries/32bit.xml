@@ -2,6 +2,7 @@
   <library name="32bit">
     <CLASSES>
       <root url="file://$USER_HOME$/Downloads/ardulink/winDLLs/32bit" />
+      <root url="jar://$USER_HOME$/Downloads/mysql-connector-java-8.0.11/mysql-connector-java-8.0.11.jar!/" />
     </CLASSES>
     <JAVADOC />
     <NATIVE>

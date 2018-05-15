@@ -110,7 +110,7 @@ public class ArduinoComm implements Runnable, SerialPortEventListener{
      */
     public synchronized void close() {
         if (serialPort != null) {
-            System.out.println("Application -> Connection with " + getName() + " closed");
+            System.out.println("RXTX -> Connection with " + getName() + " closed");
             serialPort.removeEventListener();
             serialPort.close();
         }

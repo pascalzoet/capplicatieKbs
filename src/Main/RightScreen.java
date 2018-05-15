@@ -3,24 +3,20 @@ package Main;
 import javax.swing.*;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.text.DefaultCaret;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.ByteArrayOutputStream;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
 public class RightScreen extends JPanel implements ActionListener {
     private Timer timer;
     private static JTextArea comLog;
     private JScrollPane scroll;
-    private Control controler;
     private static ByteArrayOutputStream baos;
 
-    public RightScreen(Control control, ByteArrayOutputStream baos){
+    public RightScreen(ByteArrayOutputStream baos){
         this.baos = baos;
-        this.controler = control;
         setPreferredSize(new Dimension(280,850));
         setLayout(new BorderLayout());
 
@@ -30,6 +26,8 @@ public class RightScreen extends JPanel implements ActionListener {
         comLog.setLineWrap(true);
         comLog.setWrapStyleWord(true);
         comLog.setEditable(false);
+        DefaultCaret caret = (DefaultCaret)comLog.getCaret();
+        caret.setUpdatePolicy(DefaultCaret.NEVER_UPDATE);
         scroll = new JScrollPane(comLog);
         add(scroll);
 
