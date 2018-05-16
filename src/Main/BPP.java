@@ -47,4 +47,8 @@ public class BPP {
 
         return boxes;
     }
+
+    public void stop(){
+        boxes = new ArrayList<>();
+    }
 }

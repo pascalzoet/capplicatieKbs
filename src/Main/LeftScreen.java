@@ -5,6 +5,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import static java.lang.Math.toIntExact;
+
 public class LeftScreen extends JPanel implements ActionListener{
 
     private JButton comm, start, stop, testCom;
@@ -83,5 +85,32 @@ public class LeftScreen extends JPanel implements ActionListener{
                 g.drawRect(i*216+10, j*81+435, 216, 80);
             }
         }
+
+        int x = 40;
+        int y = 30;
+        int w = 100;
+        int h = 300;
+        for(Box b: controler.getBoxes()){
+            Graphics2D g2 = (Graphics2D) g;
+            g2.setStroke(new BasicStroke(5));
+            g2.drawRect(x,y,w,h);
+            g.drawString(Integer.toString(b.getSize()), x+40, h+45);
+
+            int py = y + h-10;
+            int ph;
+            for(Product p: b.getProducts()){
+                ph = toIntExact(map(p.getSize(), 1, 20, 10, 300));
+                g2.drawRect(x+10,py-ph, w-20, ph);
+                g.drawString(Integer.toString(p.getSize()), x+5+((w-20)/2),py-(ph/2)+5);
+                py -= ph;
+            }
+
+            x+=150;
+        }
+    }
+
+    private long map(long x, long in_min, long in_max, long out_min, long out_max)
+    {
+        return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
     }
 }

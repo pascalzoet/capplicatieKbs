@@ -13,9 +13,11 @@ public class RightScreen extends JPanel implements ActionListener {
     private Timer timer;
     private static JTextArea comLog;
     private JScrollPane scroll;
+    private Screen s;
     private static ByteArrayOutputStream baos;
 
-    public RightScreen(ByteArrayOutputStream baos){
+    public RightScreen(ByteArrayOutputStream baos, Screen s){
+        this.s = s;
         this.baos = baos;
         setPreferredSize(new Dimension(280,850));
         setLayout(new BorderLayout());
@@ -31,7 +33,7 @@ public class RightScreen extends JPanel implements ActionListener {
         scroll = new JScrollPane(comLog);
         add(scroll);
 
-        timer = new Timer(1000, this);
+        timer = new Timer(800, this);
         timer.setInitialDelay(0);
         timer.start();
     }
@@ -43,5 +45,6 @@ public class RightScreen extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         comLog();
+        s.repaint();
     }
 }

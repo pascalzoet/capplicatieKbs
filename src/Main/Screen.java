@@ -26,7 +26,7 @@ public class Screen extends JFrame implements ActionListener {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         left = new LeftScreen(control);
-        right = new RightScreen(baos);
+        right = new RightScreen(baos, this);
         add(left);
         add(right);
     }

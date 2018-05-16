@@ -28,6 +28,14 @@ public class Box implements Comparable<Box>{
         return this.size - total;
     }
 
+    public int getSize() {
+        return size;
+    }
+
+    public ArrayList<Product> getProducts() {
+        return products;
+    }
+
     @Override
     public int compareTo(Box b) {
         return this.getSizeLeft() - b.getSizeLeft();

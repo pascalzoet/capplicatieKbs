@@ -32,15 +32,21 @@ public class Control {
 
     //general variables
     private ArrayList<Product> products;
+    private ArrayList<Box> boxes;
     private BPP bpp;
     private TSP tsp;
+    private boolean solved;
+    private boolean ready;
 
     public Control(){
         allProducts = new ArrayList<>();
         products = new ArrayList<>();
+        boxes = new ArrayList<>();
 
         bpp = new BPP();
         tsp = new TSP();
+        solved = false;
+        ready = false;
     }
 
     public void setup(){
@@ -51,6 +57,7 @@ public class Control {
                 System.out.println();
                 if(setupDb()){
                     System.out.println("Application -> Setup successful ready to start simulation");
+                    ready = true;
                 }
             }else{
                 System.out.println("Error -> Please try again");
@@ -204,11 +211,24 @@ public class Control {
     }
 
     public void start(){
-        System.out.println("Application -> Solving BPP");
-        bpp.solve(products);
-        System.out.println();
-        System.out.println("Application -> Solving TSP");
-        tsp.solve(products);
+        if(ready) {
+            if (!solved) {
+                LeftScreen.setStatus("Started");
+                solved = true;
+                System.out.println("Application -> Solving BPP");
+                boxes = bpp.solve(products);
+                System.out.println();
+                System.out.println("Application -> Solving TSP");
+                for (Box b : boxes) {
+                    tsp.solve(b.getProducts());
+                }
+                LeftScreen.setStatus("Done");
+            } else {
+                System.out.println("Application -> Algorithms already solved");
+            }
+        }else{
+            System.out.println("Application -> please press setup");
+        }
     }
 
     public void stop(){
@@ -222,6 +242,12 @@ public class Control {
             com2.close();
             com2Connected = false;
         }
+        System.out.println("Closing -> Closing algorithms");
+        bpp.stop();
+        tsp.stop();
+        solved = false;
+        boxes = new ArrayList<>();
+        ready = false;
     }
 
     public void testComm(){
@@ -251,5 +277,9 @@ public class Control {
         }else{
             System.out.println("Not connected to TSP");
         }
+    }
+
+    public ArrayList<Box> getBoxes() {
+        return boxes;
     }
 }
