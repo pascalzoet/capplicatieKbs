@@ -89,19 +89,33 @@ public class LeftScreen extends JPanel implements ActionListener{
         int x = 40;
         int y = 30;
         int w = 100;
-        int h = 300;
+        int h = 310;
         for(Box b: controler.getBoxes()){
             Graphics2D g2 = (Graphics2D) g;
             g2.setStroke(new BasicStroke(5));
             g2.drawRect(x,y,w,h);
-            g.drawString(Integer.toString(b.getSize()), x+40, h+45);
+            g.setFont(new Font("TimesRoman", Font.PLAIN, 18));
+            g.drawString(Integer.toString(b.getSize()), x+40, h+60);
 
             int py = y + h-10;
             int ph;
             for(Product p: b.getProducts()){
-                ph = toIntExact(map(p.getSize(), 1, 20, 10, 300));
+                ph = toIntExact(map(p.getSize(), 0, 20, 0, 290));
                 g2.drawRect(x+10,py-ph, w-20, ph);
-                g.drawString(Integer.toString(p.getSize()), x+5+((w-20)/2),py-(ph/2)+5);
+                if(p.getSize() >= 10){
+                    g.drawString(Integer.toString(p.getSize()), x+((w-20)/2),py-(ph/2)+5);
+                }else{
+                    if(p.getSize() == 1){
+                        g.setColor(Color.red);
+                        g2.setStroke(new BasicStroke(2));
+                        g.drawLine(x+20+((w-20)/2), py-(ph/2), x+10+w, py-(ph/2));
+                        g.setColor(Color.black);
+                        g2.setStroke(new BasicStroke(5));
+                        g.drawString(Integer.toString(p.getSize()), x+10+w,py-(ph/2)+5);
+                    }else{
+                        g.drawString(Integer.toString(p.getSize()), x+5+((w-20)/2),py-(ph/2)+5);
+                    }
+                }
                 py -= ph;
             }
 

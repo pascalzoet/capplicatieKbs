@@ -46,6 +46,7 @@ public class Box implements Comparable<Box>{
         String out = "Box:";
         for (Product p: products) {
             out += p.getSize();
+            out += ",";
         }
         out += "Total: ";
         out += (size-getSizeLeft());
