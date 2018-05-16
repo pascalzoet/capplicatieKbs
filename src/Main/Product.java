@@ -1,6 +1,6 @@
 package Main;
 
-public class Product {
+public class Product  implements Comparable<Product>{
     private int ID;
     private int X;
     private int Y;
@@ -11,6 +11,12 @@ public class Product {
         this.X = x;
         this.Y = y;
         this.Size = size;
+    }
+
+    @Override
+    public int compareTo(Product p) {
+        int comparesize = ((Product) p).getSize();
+        return comparesize - this.Size;
     }
 
     public int getID(){

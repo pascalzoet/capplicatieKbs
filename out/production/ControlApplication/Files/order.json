@@ -2,9 +2,9 @@
   "customerNumber" : 1,
   "orderNumber": 2,
   "productNumbers": [
-    13,
-    17,
-    12,
-    12
+    1,
+    2,
+    3,
+    4
   ]
 }

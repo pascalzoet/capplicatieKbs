@@ -32,10 +32,15 @@ public class Control {
 
     //general variables
     private ArrayList<Product> products;
+    private BPP bpp;
+    private TSP tsp;
 
     public Control(){
         allProducts = new ArrayList<>();
         products = new ArrayList<>();
+
+        bpp = new BPP();
+        tsp = new TSP();
     }
 
     public void setup(){
@@ -152,13 +157,12 @@ public class Control {
             Connection c = DriverManager.getConnection(url, username, password);
             System.out.println("Db -> Connection OK");
 
-            System.out.println("Db -> Inserting product data");
-            System.out.println("Db -> Resetting table");
+            System.out.println("Db -> Resetting product table");
             ps = c.prepareStatement("Delete from product");
             ps.executeUpdate();
             System.out.println("Db -> Table has been reset");
 
-            System.out.println("Db -> Inserting products into table");
+            System.out.println("Db -> Inserting products into product table");
             for(Product p : allProducts){
                 ps = c.prepareStatement("INSERT INTO product (ProductNumber, X_Location, Y_Location, Size) VALUES(?,?,?,?)");
                 ps.setInt(1, p.getID());
@@ -167,9 +171,10 @@ public class Control {
                 ps.setInt(4, p.getSize());
                 ps.executeUpdate();
             }
-            System.out.println("Db -> Table has been filled");
-
+            System.out.println("Db -> Product table has been filled");
+            System.out.println();
             System.out.println("Db - Retrieving product data");
+            products = new ArrayList<>();
             for(int product : order.getProductNumbers()) {
                 PreparedStatement ps = c.prepareStatement("SELECT * FROM product WHERE productNumber = ?");
                 ps.setInt(1, product);
@@ -177,14 +182,14 @@ public class Control {
 
                 if(!rs.next()){
                     System.out.println("Db -> Product with number: " + product + " not found this product is skipped");
-                }
-
-                while (rs.next()){
-                    int id = rs.getInt(1);
-                    int x = rs.getInt(2);
-                    int y = rs.getInt(3);
-                    int size = rs.getInt(4);
-                    products.add(new Product(id,x,y,size));
+                }else{
+                    do{
+                        int id = rs.getInt(1);
+                        int x = rs.getInt(2);
+                        int y = rs.getInt(3);
+                        int size = rs.getInt(4);
+                        products.add(new Product(id, x, y, size));
+                    }while(rs.next());
                 }
             }
             System.out.println("Db -> Product data retrieved");
@@ -199,10 +204,17 @@ public class Control {
     }
 
     public void start(){
-
+        System.out.println("Application -> Solving BPP");
+        bpp.solve(products);
+        System.out.println();
+        System.out.println("Application -> Solving TSP");
+        tsp.solve(products);
     }
 
     public void stop(){
+        System.out.println();
+        System.out.println("Application -> Stopping program");
+        System.out.println("Closing -> Closing arduino communication");
         if(com1Connected){
             com1.close();
             com1Connected = false;
