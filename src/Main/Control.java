@@ -3,6 +3,8 @@ package Main;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
+import org.omg.CORBA.INTERNAL;
+
 import java.io.*;
 import java.lang.reflect.Type;
 import java.sql.*;
@@ -33,6 +35,8 @@ public class Control {
     //general variables
     private ArrayList<Product> products;
     private ArrayList<Box> boxes;
+    private ArrayList<Route> routes;
+    private ArrayList<Integer> skipped;
     private BPP bpp;
     private TSP tsp;
     private boolean solved;
@@ -42,9 +46,11 @@ public class Control {
         allProducts = new ArrayList<>();
         products = new ArrayList<>();
         boxes = new ArrayList<>();
+        routes = new ArrayList<>();
+        skipped = new ArrayList<>();
 
         bpp = new BPP();
-        tsp = new TSP();
+        tsp = new TSP(this);
         solved = false;
         ready = false;
     }
@@ -57,6 +63,7 @@ public class Control {
                 System.out.println();
                 if(setupDb()){
                     System.out.println("Application -> Setup successful ready to start simulation");
+                    System.out.println();
                     ready = true;
                 }
             }else{
@@ -189,6 +196,7 @@ public class Control {
 
                 if(!rs.next()){
                     System.out.println("Db -> Product with number: " + product + " not found this product is skipped");
+                    skipped.add(product);
                 }else{
                     do{
                         int id = rs.getInt(1);
@@ -200,6 +208,12 @@ public class Control {
                 }
             }
             System.out.println("Db -> Product data retrieved");
+
+            for(Product p: products){
+                PreparedStatement ps = c.prepareStatement("DELETE FROM product WHERE productNumber = ?");
+                ps.setInt(1, p.getID());
+                ps.executeUpdate();
+            }
 
             ps.close();
             c.close();
@@ -214,15 +228,25 @@ public class Control {
         if(ready) {
             if (!solved) {
                 LeftScreen.setStatus("Started");
-                solved = true;
                 System.out.println("Application -> Solving BPP");
                 boxes = bpp.solve(products);
+                skipped.addAll(bpp.getSkipped());
                 System.out.println();
                 System.out.println("Application -> Solving TSP");
+                ArrayList<Product> clone;
                 for (Box b : boxes) {
-                    tsp.solve(b.getProducts());
+                    System.out.println(b);
+                    clone = (ArrayList<Product>) b.getProducts().clone();
+                    try{
+                        Route r = (Route)((Route)tsp.solve(clone)).clone();
+                        routes.add(r);
+                    }catch(Exception e){
+                        System.out.println("Error -> Clone failed");
+                    }
                 }
                 LeftScreen.setStatus("Done");
+                solved = true;
+                System.out.println("Skipped products: " + skipped);
             } else {
                 System.out.println("Application -> Algorithms already solved");
             }
@@ -248,6 +272,7 @@ public class Control {
         solved = false;
         boxes = new ArrayList<>();
         ready = false;
+        routes = new ArrayList<>();
     }
 
     public void testComm(){
@@ -281,5 +306,13 @@ public class Control {
 
     public ArrayList<Box> getBoxes() {
         return boxes;
+    }
+
+    public ArrayList<Route> getRoutes() {
+        return routes;
+    }
+
+    public boolean isSolved() {
+        return solved;
     }
 }

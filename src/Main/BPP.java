@@ -6,9 +6,11 @@ import java.util.Collections;
 public class BPP {
 
     private ArrayList<Box> boxes;
+    private ArrayList<Integer> skipped;
 
     public BPP(){
         boxes = new ArrayList<>();
+        skipped = new ArrayList<>();
     }
 
     protected ArrayList<Product> sortProducts(ArrayList<Product> list) {
@@ -36,8 +38,8 @@ public class BPP {
             int max = boxes.indexOf(Collections.max(boxes));
             if(!boxes.get(min).addProduct(product)){
                 if(!boxes.get(max).addProduct(product)){
-                    //TODO: save skipped products
                     System.out.println("BPP -> the products are too big to fit in two boxes product " + product.getID() + " has been skipped");
+                    skipped.add(product.getID());
                 }
             }
         }
@@ -46,6 +48,10 @@ public class BPP {
         }
 
         return boxes;
+    }
+
+    public ArrayList<Integer> getSkipped() {
+        return skipped;
     }
 
     public void stop(){

@@ -76,6 +76,8 @@ public class LeftScreen extends JPanel implements ActionListener{
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
 
+        Graphics2D g2 = (Graphics2D) g;
+
         g.drawLine(0,425,1100,425);
 
         //TSP
@@ -85,13 +87,30 @@ public class LeftScreen extends JPanel implements ActionListener{
                 g.drawRect(i*216+10, j*81+435, 216, 80);
             }
         }
+        if(controler.isSolved()){
+            g2.setColor(Color.red);
+            for(Route r : controler.getRoutes()){
+                for(int i=0; i < r.getPoints().size()-1; i++){
+                    Point p1 = r.getPoints().get(i);
+                    Point p2 = r.getPoints().get(i+1);
 
+                    g2.setStroke(new BasicStroke(3));
+                    g2.drawLine(p1.getTrueX(),p1.getTrueY(),p2.getTrueX(),p2.getTrueY());
+                    g.drawOval(p1.getTrueX()-5,p1.getTrueY()-5,10,10);
+                    g.drawOval(p2.getTrueX()-5,p2.getTrueY()-5,10,10);
+                }
+                g2.setColor(Color.BLUE);
+            }
+        }
+        g2.setColor(Color.black);
+
+
+        //BPP
         int x = 40;
         int y = 30;
         int w = 100;
         int h = 310;
         for(Box b: controler.getBoxes()){
-            Graphics2D g2 = (Graphics2D) g;
             g2.setStroke(new BasicStroke(5));
             g2.drawRect(x,y,w,h);
             g.setFont(new Font("TimesRoman", Font.PLAIN, 18));
