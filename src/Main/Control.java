@@ -41,6 +41,8 @@ public class Control {
     private TSP tsp;
     private boolean solved;
     private boolean ready;
+    private int index;
+    PrintWriter writer = null;
 
     public Control(){
         allProducts = new ArrayList<>();
@@ -48,6 +50,7 @@ public class Control {
         boxes = new ArrayList<>();
         routes = new ArrayList<>();
         skipped = new ArrayList<>();
+        index = 0;
 
         bpp = new BPP();
         tsp = new TSP(this);
@@ -56,21 +59,24 @@ public class Control {
     }
 
     public void setup(){
-        //TODO: flip statement
-        if(!setupArduino()) {
-            System.out.println();
-            if(setupJson()) {
+        if(!ready) {
+            if (setupArduino()) {
                 System.out.println();
-                if(setupDb()){
-                    System.out.println("Application -> Setup successful ready to start simulation");
+                if (setupJson()) {
                     System.out.println();
-                    ready = true;
+                    if (setupDb()) {
+                        System.out.println("Application -> Setup successful ready to start simulation");
+                        System.out.println();
+                        ready = true;
+                    }
+                } else {
+                    System.out.println("Error -> Please try again");
                 }
-            }else{
+            } else {
                 System.out.println("Error -> Please try again");
             }
         }else{
-            System.out.println("Error -> Please try again");
+            System.out.println("Application -> Setup has already been completed");
         }
     }
 
@@ -79,7 +85,7 @@ public class Control {
         if(!com1Connected){
             com1Connected = true;
             System.out.println("RXTX -> Connecting with TSP");
-            com1 = new ArduinoComm("TSP", "COM3");
+            com1 = new ArduinoComm("TSP", "COM3", this);
             if(!com1.initialize()){
                 com1Connected = false;
             }
@@ -96,7 +102,7 @@ public class Control {
         if(!com2Connected){
             com2Connected = true;
             System.out.println("RXTX -> Connecting with BPP");
-            com2 = new ArduinoComm("BPP", "COM6");
+            com2 = new ArduinoComm("BPP", "COM5", this);
             if(!com2.initialize()){
                 com2Connected = false;
             }
@@ -140,12 +146,15 @@ public class Control {
         if (jsonResult){
             System.out.println("JsonReader -> Succes ");
             System.out.println("JsonReader -> Data set JSON order file:");
-            System.out.println("Customer number: " + order.getCustomerNumber());
-            System.out.println("Order number: " + order.getOrdernummer());
+            System.out.println("Customer: " + order.getFirstName() + " " + order.getLastName());
             System.out.println("Product numbers: ");
-            for (int number : order.getProductNumbers()){
-                System.out.println(number);
+            for (int i=0; i<order.getProductNumbers().size(); i++){
+                System.out.print(order.getProductNumbers().get(i));
+                if (i<order.getProductNumbers().size()-1) {
+                    System.out.print(",");
+                }
             }
+            System.out.println();
         }else{
             return false;
         }
@@ -178,11 +187,12 @@ public class Control {
 
             System.out.println("Db -> Inserting products into product table");
             for(Product p : allProducts){
-                ps = c.prepareStatement("INSERT INTO product (ProductNumber, X_Location, Y_Location, Size) VALUES(?,?,?,?)");
+                ps = c.prepareStatement("INSERT INTO product (ProductNumber, Name, X_Location, Y_Location, Size) VALUES(?,?,?,?,?)");
                 ps.setInt(1, p.getID());
-                ps.setInt(2, p.getX());
-                ps.setInt(3, p.getY());
-                ps.setInt(4, p.getSize());
+                ps.setString(2, p.getName());
+                ps.setInt(3, p.getX());
+                ps.setInt(4, p.getY());
+                ps.setInt(5, p.getSize());
                 ps.executeUpdate();
             }
             System.out.println("Db -> Product table has been filled");
@@ -200,10 +210,11 @@ public class Control {
                 }else{
                     do{
                         int id = rs.getInt(1);
-                        int x = rs.getInt(2);
-                        int y = rs.getInt(3);
-                        int size = rs.getInt(4);
-                        products.add(new Product(id, x, y, size));
+                        String name = rs.getString(2);
+                        int x = rs.getInt(3);
+                        int y = rs.getInt(4);
+                        int size = rs.getInt(5);
+                        products.add(new Product(id, name, x, y, size));
                     }while(rs.next());
                 }
             }
@@ -230,8 +241,13 @@ public class Control {
                 LeftScreen.setStatus("Started");
                 System.out.println("Application -> Solving BPP");
                 boxes = bpp.solve(products);
+                for(Box b : boxes){
+                    if(b.getProducts().size() > 4){
+                        System.out.println("Applicatie -> There is a limit of four products in a box");
+                        return;
+                    }
+                }
                 skipped.addAll(bpp.getSkipped());
-                System.out.println();
                 System.out.println("Application -> Solving TSP");
                 ArrayList<Product> clone;
                 for (Box b : boxes) {
@@ -247,12 +263,66 @@ public class Control {
                 LeftScreen.setStatus("Done");
                 solved = true;
                 System.out.println("Skipped products: " + skipped);
+                System.out.println();
+                System.out.println("Generating receipt");
+                generateReceipt();
             } else {
                 System.out.println("Application -> Algorithms already solved");
             }
         }else{
             System.out.println("Application -> please press setup");
         }
+    }
+
+    public boolean generateReceipt(){
+        boolean result = true;
+        try {
+            writer = new PrintWriter("src\\Files\\Receipt.txt");
+            writer.println("Thanks for your order!");
+            writer.println();
+            writer.println("Customer:");
+            writer.println("Name: " + order.getFirstName() + " " + order.getLastName());
+            writer.println("Address: " + order.getStreet() + " " + order.getHouseNumber());
+            writer.println(order.getPostalCode() + " " + order.getCity());
+            writer.println("Date: " + order.getDate());
+            writer.println();
+            writer.println();
+            writer.println("Delivered products:");
+            for(Box b : boxes){
+                for(Product p : b.getProducts()){
+                    writer.println(p.getName());
+                }
+                writer.println();
+            }
+            if(skipped.size() > 0){
+                writer.println("Products to be delivered:");
+                for(int i : skipped){
+                    boolean found = false;
+                    for(Product p : allProducts){
+                        if(p.getID() == i){
+                            writer.println(p.getName());
+                            found = true;
+                            break;
+                        }
+                    }
+                    if(!found){
+                        writer.println("ID: " + i);
+                    }
+                }
+            }
+        } catch (FileNotFoundException ex) {
+            System.out.println("Error -> File could not be created " + ex.getMessage());
+            result = false;
+        } finally {
+            if (writer != null) {
+                writer.close();
+            }
+            if(!result){
+                return false;
+            }
+        }
+        System.out.println("Application -> Receipt generated");
+        return true;
     }
 
     public void stop(){
@@ -302,6 +372,31 @@ public class Control {
         }else{
             System.out.println("Not connected to TSP");
         }
+    }
+
+    public void message(String sender, String message){
+        System.out.println();
+        System.out.println("Message received:");
+        System.out.println(sender + " -> " + message);
+        System.out.println();
+
+        switch (message){
+            case "Done":
+                nextNumber();
+                break;
+        }
+    }
+
+    private void nextNumber(){
+        int r = 0;
+        int realIndex = index;
+        if(index >= routes.get(0).getPoints().size()){
+            r = 1;
+            realIndex = index -= routes.get(0).getPoints().size();
+        }
+        com1.write(Integer.toString(routes.get(r).getPoints().get(realIndex).getX()));
+        com1.write(Integer.toString(routes.get(r).getPoints().get(realIndex).getY()));
+        index++;
     }
 
     public ArrayList<Box> getBoxes() {

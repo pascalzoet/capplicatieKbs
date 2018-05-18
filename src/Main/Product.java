@@ -4,12 +4,14 @@ import static java.lang.Math.toIntExact;
 
 public class Product  implements Comparable<Product>{
     private int ID;
+    private String Name;
     private int X;
     private int Y;
     private int Size;
 
-    public Product(int id, int x, int y, int size){
+    public Product(int id, String Name, int x, int y, int size){
         this.ID = id;
+        this.Name = Name;
         this.X = x;
         this.Y = y;
         this.Size = size;
@@ -60,6 +62,10 @@ public class Product  implements Comparable<Product>{
     private long map(long x, long in_min, long in_max, long out_min, long out_max)
     {
         return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
+    }
+
+    public String getName() {
+        return Name;
     }
 
     public int getSize() {

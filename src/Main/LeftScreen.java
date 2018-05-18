@@ -119,7 +119,7 @@ public class LeftScreen extends JPanel implements ActionListener{
             int py = y + h-10;
             int ph;
             for(Product p: b.getProducts()){
-                ph = toIntExact(map(p.getSize(), 0, 20, 0, 290));
+                ph = toIntExact(map(p.getSize(), 0, b.getSize(), 0, 290));
                 g2.drawRect(x+10,py-ph, w-20, ph);
                 if(p.getSize() >= 10){
                     g.drawString(Integer.toString(p.getSize()), x+((w-20)/2),py-(ph/2)+5);

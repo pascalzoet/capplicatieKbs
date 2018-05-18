@@ -9,7 +9,7 @@ public class TSP {
 
     private Route route;
     private ArrayList<Product> products;
-    Control c;
+    private Control c;
 
     public TSP(Control c){
         this.c = c;
@@ -59,21 +59,77 @@ public class TSP {
     }
 
     public boolean twoOpt(){
-        for(int i=0; i< route.getPoints().size()-3; i++){
-            Point r1 = route.getPoints().get(i);
-            Point r2 = route.getPoints().get(i+1);
-            Point r3 = route.getPoints().get(i+2);
-            Point r4 = route.getPoints().get(i+3);
-            if(Line2D.linesIntersect(r1.getTrueX(),r1.getTrueY(),r2.getTrueX(),r2.getTrueY(),r3.getTrueX(),r3.getTrueY(),r4.getTrueX(),r4.getTrueY())){
-                int r2x = r2.getX();
-                int r2y = r2.getY();
-                route.getPoints().get(i+1).setX(r3.getX());
-                route.getPoints().get(i+1).setY(r3.getY());
-                route.getPoints().get(i+2).setX(r2x);
-                route.getPoints().get(i+2).setY(r2y);
-                return false;
+        boolean improved = false;
+//        for(int i=0; i<route.getPoints().size()-3; i++){
+//            Point r1 = route.getPoints().get(i);
+//            Point r2 = route.getPoints().get(i+1);
+//            Point r3 = route.getPoints().get(i + 2);
+//            Point r4 = route.getPoints().get(i + 3);
+//            if (Line2D.linesIntersect(r1.getTrueX(), r1.getTrueY(), r2.getTrueX(), r2.getTrueY(), r3.getTrueX(), r3.getTrueY(), r4.getTrueX(), r4.getTrueY())) {
+//                int r2x = r2.getX();
+//                int r2y = r2.getY();
+//                route.getPoints().get(i + 1).setX(r3.getX());
+//                route.getPoints().get(i + 1).setY(r3.getY());
+//                route.getPoints().get(i + 2).setX(r2x);
+//                route.getPoints().get(i + 2).setY(r2y);
+//                return false;
+//            }
+//        }
+//        return true;
+
+        for(int i=1; i<route.getPoints().size()-1; i++){
+            for(int j=1; j<route.getPoints().size()-1; j++){
+                double d = meassureRoute();
+                swap(i,j);
+                double d2 = meassureRoute();
+                if(d<d2){
+                    swap(i,j);
+                }else{
+                    improved = true;
+                }
             }
         }
-        return true;
+        if(improved){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    private void swap(int i,int j){
+        int ix = route.getPoints().get(i).getX();
+        int iy = route.getPoints().get(i).getY();
+        route.getPoints().get(i).setX(route.getPoints().get(j).getX());
+        route.getPoints().get(i).setY(route.getPoints().get(j).getY());
+        route.getPoints().get(j).setX(ix);
+        route.getPoints().get(j).setY(iy);
+    }
+
+    private double meassureRoute(){
+        double total = 0;
+        for(int i=0; i<route.getPoints().size(); i++){
+            if(i < route.getPoints().size()-1){
+                total += calculateDistance(route.getPoints().get(i), route.getPoints().get(i+1));
+            }else{
+                total += calculateDistance(route.getPoints().get(i), route.getPoints().get(0));
+            }
+        }
+        return total;
+    }
+
+    private double calculateDistance(Point locA, Point locB) {
+        double distA;
+        double distB;
+        if (locA.getTrueX() > locB.getTrueX()) {
+            distA = locA.getTrueX() - locB.getTrueX();
+        } else {
+            distA = locB.getTrueX() - locA.getTrueX();
+        }
+        if (locA.getTrueY() > locB.getTrueY()) {
+            distB = locA.getTrueY() - locB.getTrueY();
+        } else {
+            distB = locB.getTrueY() - locA.getTrueY();
+        }
+        return Math.sqrt(Math.pow(distA, 2) + Math.pow(distB, 2));
     }
 }

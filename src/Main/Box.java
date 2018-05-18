@@ -43,13 +43,28 @@ public class Box implements Comparable<Box>{
 
     @Override
     public String toString() {
-        String out = "Box:";
-        for (Product p: products) {
+        String out = "Box:\n";
+        out += "Sizes: ";
+        for (int i=0; i<products.size(); i++) {
+            Product p = products.get(i);
             out += p.getSize();
-            out += ",";
+            if(i < products.size()-1){
+                out += ",";
+            }
         }
+        out+="\n";
+        out+="ID's: ";
+        for (int i=0; i<products.size(); i++) {
+            Product p = products.get(i);
+            out += p.getID();
+            if(i < products.size()-1){
+                out += ",";
+            }
+        }
+        out += "\n";
         out += "Total: ";
         out += (size-getSizeLeft());
+        out += "\n";
         return out;
     }
 }

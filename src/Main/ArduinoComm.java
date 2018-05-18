@@ -35,9 +35,12 @@ public class ArduinoComm implements Runnable, SerialPortEventListener{
     /** Default bits per second for COM port. */
     private static final int DATA_RATE = 9600;
 
-    public ArduinoComm(String name, String com){
+    private Control c;
+
+    public ArduinoComm(String name, String com, Control c){
         this.name = name;
         PORT_NAMES[3] = com;
+        this.c = c;
     }
 
     public boolean initialize() {
@@ -123,8 +126,7 @@ public class ArduinoComm implements Runnable, SerialPortEventListener{
         if (oEvent.getEventType() == SerialPortEvent.DATA_AVAILABLE) {
             try {
                 String inputLine=input.readLine();
-                System.out.println("Arduino " + name + " -> " + inputLine);
-
+                c.message(this.name,inputLine);
             } catch (Exception e) {
                 System.err.println(e.toString());
             }
