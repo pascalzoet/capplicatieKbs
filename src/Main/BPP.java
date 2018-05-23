@@ -13,7 +13,7 @@ public class BPP {
         skipped = new ArrayList<>();
     }
 
-    protected ArrayList<Product> sortProducts(ArrayList<Product> list) {
+    private ArrayList<Product> sortProducts(ArrayList<Product> list) {
         System.out.println("BPP -> Sorting products");
         Collections.sort(list);
         System.out.println("BPP -> Products sorted result:");

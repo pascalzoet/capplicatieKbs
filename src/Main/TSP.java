@@ -33,13 +33,15 @@ public class TSP {
         System.out.println();
 
         //2-opt
-        while(!twoOpt()){}
+        if(!(route.getPoints().size() == 2)){
+            while(twoOpt()){}
+        }
         System.out.println("TSP -> 2-Opt result:");
         System.out.println(route);
         return route;
     }
 
-    public int getNearest(ArrayList<Product> products, Point p2){
+    private int getNearest(ArrayList<Product> products, Point p2){
         double distance = 999999999;
         int smallest = -1;
         for(int i=0; i<products.size(); i++){
@@ -58,31 +60,17 @@ public class TSP {
         route = new Route();
     }
 
-    public boolean twoOpt(){
+    private boolean twoOpt(){
         boolean improved = false;
-//        for(int i=0; i<route.getPoints().size()-3; i++){
-//            Point r1 = route.getPoints().get(i);
-//            Point r2 = route.getPoints().get(i+1);
-//            Point r3 = route.getPoints().get(i + 2);
-//            Point r4 = route.getPoints().get(i + 3);
-//            if (Line2D.linesIntersect(r1.getTrueX(), r1.getTrueY(), r2.getTrueX(), r2.getTrueY(), r3.getTrueX(), r3.getTrueY(), r4.getTrueX(), r4.getTrueY())) {
-//                int r2x = r2.getX();
-//                int r2y = r2.getY();
-//                route.getPoints().get(i + 1).setX(r3.getX());
-//                route.getPoints().get(i + 1).setY(r3.getY());
-//                route.getPoints().get(i + 2).setX(r2x);
-//                route.getPoints().get(i + 2).setY(r2y);
-//                return false;
-//            }
-//        }
-//        return true;
-
         for(int i=1; i<route.getPoints().size()-1; i++){
             for(int j=1; j<route.getPoints().size()-1; j++){
+                if(i == j){
+                    continue;
+                }
                 double d = meassureRoute();
                 swap(i,j);
                 double d2 = meassureRoute();
-                if(d<d2){
+                if(d<=d2){
                     swap(i,j);
                 }else{
                     improved = true;

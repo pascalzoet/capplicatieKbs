@@ -114,7 +114,7 @@ public class LeftScreen extends JPanel implements ActionListener{
             g2.setStroke(new BasicStroke(5));
             g2.drawRect(x,y,w,h);
             g.setFont(new Font("TimesRoman", Font.PLAIN, 18));
-            g.drawString(Integer.toString(b.getSize()), x+40, h+60);
+            g.drawString((b.getSize() - b.getSizeLeft()) + "/" + b.getSize(), x+30, h+60);
 
             int py = y + h-10;
             int ph;

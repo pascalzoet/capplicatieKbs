@@ -60,7 +60,7 @@ public class Control {
 
     public void setup(){
         if(!ready) {
-            if (setupArduino()) {
+            if (!setupArduino()) {
                 System.out.println();
                 if (setupJson()) {
                     System.out.println();
@@ -85,7 +85,7 @@ public class Control {
         if(!com1Connected){
             com1Connected = true;
             System.out.println("RXTX -> Connecting with TSP");
-            com1 = new ArduinoComm("TSP", "COM3", this);
+            com1 = new ArduinoComm("TSP", "COM4", this);
             if(!com1.initialize()){
                 com1Connected = false;
             }
@@ -264,8 +264,7 @@ public class Control {
                 solved = true;
                 System.out.println("Skipped products: " + skipped);
                 System.out.println();
-                System.out.println("Generating receipt");
-                generateReceipt();
+                nextNumber();
             } else {
                 System.out.println("Application -> Algorithms already solved");
             }
@@ -381,8 +380,18 @@ public class Control {
         System.out.println();
 
         switch (message){
-            case "Done":
+            case "DoneY":
                 nextNumber();
+                break;
+            case "Drop off ready":
+                if(index >= routes.get(0).getPoints().size()){
+                    com2.write("Right");
+                }else{
+                    com2.write("Left");
+                }
+                break;
+            case "Drop off done":
+                com2.write("Stop");
                 break;
         }
     }
@@ -392,10 +401,17 @@ public class Control {
         int realIndex = index;
         if(index >= routes.get(0).getPoints().size()){
             r = 1;
-            realIndex = index -= routes.get(0).getPoints().size();
+            realIndex = index - routes.get(0).getPoints().size();
         }
-        com1.write(Integer.toString(routes.get(r).getPoints().get(realIndex).getX()));
-        com1.write(Integer.toString(routes.get(r).getPoints().get(realIndex).getY()));
+        if(realIndex == 0){
+            realIndex+=1;
+        }
+        com1.write("x" + Integer.toString(routes.get(r).getPoints().get(realIndex).getX()) + "y" + Integer.toString(routes.get(r).getPoints().get(realIndex).getY()));
+
+        if(r == 1 && index >=routes.get(1).getPoints().size()){
+            System.out.println("Generating receipt");
+            generateReceipt();
+        }
         index++;
     }
 

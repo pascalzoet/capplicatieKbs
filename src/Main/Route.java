@@ -15,9 +15,6 @@ public class Route implements Cloneable{
     public void addPoint(int x, int y){
         points.add(new Point(x,y));
     }
-    public void addPoint(int index, int x, int y){
-        points.add(index, new Point(x,y));
-    }
 
     public Point getLast(){
         return points.get(points.size()-1);
