@@ -110,6 +110,7 @@ public class LeftScreen extends JPanel implements ActionListener{
         int y = 30;
         int w = 100;
         int h = 310;
+
         for(Box b: controler.getBoxes()){
             g2.setStroke(new BasicStroke(5));
             g2.drawRect(x,y,w,h);

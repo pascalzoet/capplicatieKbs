@@ -58,22 +58,28 @@ public class Control {
         ready = false;
     }
 
+    //Setup application
     public void setup(){
         if(!ready) {
-            if (!setupArduino()) {
+            //setup Arduino communication
+            if (setupArduino()) {
                 System.out.println();
+                //setup Product and order files
                 if (setupJson()) {
                     System.out.println();
+                    //setup database
                     if (setupDb()) {
                         System.out.println("Application -> Setup successful ready to start simulation");
                         System.out.println();
                         ready = true;
+                    }else{
+                        System.out.println("Error -> Database error please try again");
                     }
                 } else {
-                    System.out.println("Error -> Please try again");
+                    System.out.println("Error -> JSON error please try again");
                 }
             } else {
-                System.out.println("Error -> Please try again");
+                System.out.println("Error -> Arduino error please try again");
             }
         }else{
             System.out.println("Application -> Setup has already been completed");
@@ -241,9 +247,11 @@ public class Control {
                 LeftScreen.setStatus("Started");
                 System.out.println("Application -> Solving BPP");
                 boxes = bpp.solve(products);
+
                 for(Box b : boxes){
                     if(b.getProducts().size() > 4){
                         System.out.println("Applicatie -> There is a limit of four products in a box");
+                        LeftScreen.setStatus("Done");
                         return;
                     }
                 }
@@ -260,10 +268,10 @@ public class Control {
                         System.out.println("Error -> Clone failed");
                     }
                 }
-                LeftScreen.setStatus("Done");
                 solved = true;
                 System.out.println("Skipped products: " + skipped);
                 System.out.println();
+                LeftScreen.setStatus("Communicating");
                 nextNumber();
             } else {
                 System.out.println("Application -> Algorithms already solved");
@@ -409,6 +417,7 @@ public class Control {
         com1.write("x" + Integer.toString(routes.get(r).getPoints().get(realIndex).getX()) + "y" + Integer.toString(routes.get(r).getPoints().get(realIndex).getY()));
 
         if(r == 1 && index >=routes.get(1).getPoints().size()){
+            LeftScreen.setStatus("Done");
             System.out.println("Generating receipt");
             generateReceipt();
         }
