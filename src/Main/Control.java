@@ -50,7 +50,7 @@ public class Control {
         boxes = new ArrayList<>();
         routes = new ArrayList<>();
         skipped = new ArrayList<>();
-        index = 0;
+        index = 1;
 
         bpp = new BPP();
         tsp = new TSP(this);
@@ -91,7 +91,7 @@ public class Control {
         if(!com1Connected){
             com1Connected = true;
             System.out.println("RXTX -> Connecting with TSP");
-            com1 = new ArduinoComm("TSP", "COM4", this);
+            com1 = new ArduinoComm("TSP", "COM3", this);
             if(!com1.initialize()){
                 com1Connected = false;
             }
@@ -340,8 +340,12 @@ public class Control {
             com1.close();
             com1Connected = false;
         }if(com2Connected){
-            com2.close();
-            com2Connected = false;
+            try {
+                com2.close();
+                com2Connected = false;
+            }catch(NullPointerException e){
+                System.out.println("Error -> Couldn't close BPP");
+            }
         }
         System.out.println("Closing -> Closing algorithms");
         bpp.stop();
@@ -385,21 +389,22 @@ public class Control {
         System.out.println();
         System.out.println("Message received:");
         System.out.println(sender + " -> " + message);
-        System.out.println();
 
         switch (message){
             case "DoneY":
                 nextNumber();
                 break;
-            case "Drop off ready":
-                if(index >= routes.get(0).getPoints().size()){
+            case "Dropoff-ready":
+                if(index > routes.get(0).getPoints().size()-1){
                     com2.write("Right");
                 }else{
                     com2.write("Left");
                 }
                 break;
-            case "Drop off done":
+            case "Dropoff-done":
+                System.out.println("moo");
                 com2.write("Stop");
+                nextNumber();
                 break;
         }
     }
@@ -408,19 +413,22 @@ public class Control {
         int r = 0;
         int realIndex = index;
         if(index >= routes.get(0).getPoints().size()){
-            r = 1;
-            realIndex = index - routes.get(0).getPoints().size();
+            r=1;
+            realIndex -= routes.get(0).getPoints().size();
         }
-        if(realIndex == 0){
-            realIndex+=1;
+
+        if(r == 1){
+            realIndex++;
         }
+
         com1.write("x" + Integer.toString(routes.get(r).getPoints().get(realIndex).getX()) + "y" + Integer.toString(routes.get(r).getPoints().get(realIndex).getY()));
 
-        if(r == 1 && index >=routes.get(1).getPoints().size()){
+        if(r == 1 && index >= routes.get(1).getPoints().size() + routes.get(1).getPoints().size()-2){
             LeftScreen.setStatus("Done");
             System.out.println("Generating receipt");
             generateReceipt();
         }
+
         index++;
     }
 
