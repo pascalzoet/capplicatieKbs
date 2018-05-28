@@ -17,8 +17,8 @@
       <file leaf-file-name="Control.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Main/Control.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-382">
-              <caret line="97" column="44" lean-forward="true" selection-start-line="97" selection-start-column="44" selection-end-line="97" selection-end-column="44" />
+            <state relative-caret-position="520">
+              <caret line="410" column="26" lean-forward="false" selection-start-line="410" selection-start-column="26" selection-end-line="410" selection-end-column="26" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="method#Control#0;class#Control#0" expanded="false" />
@@ -29,14 +29,13 @@
                 <element signature="method#generateReceipt#0;class#Control#0" expanded="false" />
                 <element signature="method#stop#0;class#Control#0" expanded="false" />
                 <element signature="method#testComm#0;class#Control#0" expanded="false" />
-                <element signature="method#message#0;class#Control#0" expanded="false" />
                 <element signature="method#nextNumber#0;class#Control#0" expanded="false" />
-                <element signature="e#15894#15895#0" expanded="true" />
-                <element signature="e#15922#15923#0" expanded="true" />
-                <element signature="e#15965#15966#0" expanded="true" />
-                <element signature="e#15994#15995#0" expanded="true" />
-                <element signature="e#16027#16028#0" expanded="true" />
-                <element signature="e#16056#16057#0" expanded="true" />
+                <element signature="e#15928#15929#0" expanded="true" />
+                <element signature="e#15956#15957#0" expanded="true" />
+                <element signature="e#15999#16000#0" expanded="true" />
+                <element signature="e#16028#16029#0" expanded="true" />
+                <element signature="e#16061#16062#0" expanded="true" />
+                <element signature="e#16090#16091#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -239,17 +238,6 @@
             <path>
               <item name="ControlApplication" type="b2602c69:ProjectViewProjectNode" />
               <item name="ControlApplication" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="ControlApplication" type="b2602c69:ProjectViewProjectNode" />
-              <item name="ControlApplication" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="ControlApplication" type="b2602c69:ProjectViewProjectNode" />
-              <item name="ControlApplication" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="Main" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -772,8 +760,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Main/Control.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-382">
-          <caret line="97" column="44" lean-forward="true" selection-start-line="97" selection-start-column="44" selection-end-line="97" selection-end-column="44" />
+        <state relative-caret-position="520">
+          <caret line="410" column="26" lean-forward="false" selection-start-line="410" selection-start-column="26" selection-end-line="410" selection-end-column="26" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="method#Control#0;class#Control#0" expanded="false" />
@@ -784,14 +772,13 @@
             <element signature="method#generateReceipt#0;class#Control#0" expanded="false" />
             <element signature="method#stop#0;class#Control#0" expanded="false" />
             <element signature="method#testComm#0;class#Control#0" expanded="false" />
-            <element signature="method#message#0;class#Control#0" expanded="false" />
             <element signature="method#nextNumber#0;class#Control#0" expanded="false" />
-            <element signature="e#15894#15895#0" expanded="true" />
-            <element signature="e#15922#15923#0" expanded="true" />
-            <element signature="e#15965#15966#0" expanded="true" />
-            <element signature="e#15994#15995#0" expanded="true" />
-            <element signature="e#16027#16028#0" expanded="true" />
-            <element signature="e#16056#16057#0" expanded="true" />
+            <element signature="e#15928#15929#0" expanded="true" />
+            <element signature="e#15956#15957#0" expanded="true" />
+            <element signature="e#15999#16000#0" expanded="true" />
+            <element signature="e#16028#16029#0" expanded="true" />
+            <element signature="e#16061#16062#0" expanded="true" />
+            <element signature="e#16090#16091#0" expanded="true" />
           </folding>
         </state>
       </provider>

@@ -41,7 +41,8 @@ public class Control {
     private boolean solved;
     private boolean ready;
     private int index;
-    PrintWriter writer = null;
+    private int dropoff =0;
+    private PrintWriter writer = null;
 
     public Control(){
         allProducts = new ArrayList<>();
@@ -402,11 +403,12 @@ public class Control {
                 nextNumber();
                 break;
             case "Dropoff-ready":
-                if(index > routes.get(0).getPoints().size()-1){
-                    com2.write("Right");
-                }else{
+                if (dropoff == 0){
                     com2.write("Left");
+                }else{
+                    com2.write("Right");
                 }
+                dropoff++;
                 break;
             case "Dropoff-done":
                 System.out.println("moo");
