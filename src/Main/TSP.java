@@ -1,9 +1,6 @@
 package Main;
 
-import java.awt.geom.Line2D;
 import java.util.ArrayList;
-
-import static java.lang.Math.toIntExact;
 
 public class TSP {
 
@@ -17,7 +14,7 @@ public class TSP {
     }
 
     public Route solve(ArrayList<Product> p){
-        //NN
+        //nearest neighbour
         this.products = p;
         route.empty();
         route.addPoint(10,840);
@@ -32,7 +29,7 @@ public class TSP {
         System.out.println(route);
         System.out.println();
 
-        //2-opt
+        //heuristic 2-opt
         if(!(route.getPoints().size() == 2)){
             while(twoOpt()){}
         }
@@ -84,6 +81,7 @@ public class TSP {
         }
     }
 
+    //swap 2 points
     private void swap(int i,int j){
         int ix = route.getPoints().get(i).getX();
         int iy = route.getPoints().get(i).getY();
@@ -93,6 +91,7 @@ public class TSP {
         route.getPoints().get(j).setY(iy);
     }
 
+    //measure the length of the route
     private double meassureRoute(){
         double total = 0;
         for(int i=0; i<route.getPoints().size(); i++){

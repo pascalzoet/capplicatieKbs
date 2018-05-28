@@ -3,7 +3,6 @@ package Main;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
-import org.omg.CORBA.INTERNAL;
 
 import java.io.*;
 import java.lang.reflect.Type;
@@ -139,6 +138,7 @@ public class Control {
         return false;
     }
 
+    //setting up json
     private boolean setupJson(){
         System.out.println("Application -> Reading order JSON file");
         try{
@@ -180,6 +180,7 @@ public class Control {
         return true;
     }
 
+    //setting up database
     private boolean setupDb(){
         System.out.println("Application -> Setting up database");
         try {
@@ -241,6 +242,7 @@ public class Control {
         }
     }
 
+    //this method handles the complete application.
     public void start(){
         if(ready) {
             if (!solved) {
@@ -281,6 +283,7 @@ public class Control {
         }
     }
 
+    //this method generates the receipt
     public boolean generateReceipt(){
         boolean result = true;
         try {
@@ -356,6 +359,7 @@ public class Control {
         routes = new ArrayList<>();
     }
 
+    //test communication with arduinos
     public void testComm(){
         if(com1Connected){
             try{
@@ -385,6 +389,7 @@ public class Control {
         }
     }
 
+    //An incomming message from arduino
     public void message(String sender, String message){
         System.out.println();
         System.out.println("Message received:");
@@ -409,6 +414,7 @@ public class Control {
         }
     }
 
+    //send the current product location to the tsp robot
     private void nextNumber(){
         int r = 0;
         int realIndex = index;

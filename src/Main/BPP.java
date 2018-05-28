@@ -28,6 +28,7 @@ public class BPP {
         return list;
     }
 
+    //solve bpp
     public ArrayList<Box> solve(ArrayList<Product> products){
         products = sortProducts(products);
         boxes.add(new Box(20));

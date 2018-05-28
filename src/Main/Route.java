@@ -2,8 +2,6 @@ package Main;
 
 import java.util.ArrayList;
 
-import static java.lang.Math.toIntExact;
-
 public class Route implements Cloneable{
 
     private ArrayList<Point> points;
