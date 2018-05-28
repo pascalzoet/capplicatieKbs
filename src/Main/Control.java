@@ -89,6 +89,7 @@ public class Control {
         System.out.println("Application -> Setting up arduino communication");
         if(!com1Connected){
             com1Connected = true;
+            //change com3 to corresponding port
             System.out.println("RXTX -> Connecting with TSP");
             com1 = new ArduinoComm("TSP", "COM3", this);
             if(!com1.initialize()){
@@ -107,6 +108,7 @@ public class Control {
         if(!com2Connected){
             com2Connected = true;
             System.out.println("RXTX -> Connecting with BPP");
+            //change com5 to corresponding port
             com2 = new ArduinoComm("BPP", "COM5", this);
             if(!com2.initialize()){
                 com2Connected = false;
